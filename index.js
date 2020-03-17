@@ -42,12 +42,12 @@ function start() {
         .then(function(res) {
             switch (res.start) {
 
-                case "Add Employee":
-                    addEmployee();
-                    break;
-
                 case "View all Employees":
                     viewAllEmployees();
+                    break;
+
+                case "Add Employee":
+                    addEmployee();
                     break;
 
                 case "Remove Employee":
@@ -242,6 +242,9 @@ function viewAllRoles() {
         start();
     })
 }
+
+/// update Employee Role function has "unexpected character" which breaks the application 
+
 
 // function updateEmRole() {​
 //     connection.query("SELECT first_name, last_name, id FROM employee",
