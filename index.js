@@ -246,35 +246,27 @@ function viewAllRoles() {
 
 
 function updateEmRole() {
-    connection.query("SELECT first_name, last_name, id FROM employee",
-        function(err, res) {
+    inquirer
+        .prompt([{
+                type: "input",
+                name: "employeeName",
+                message: "Which employee's role would you like to update? select by writing first name"
 
-            let employees = res.map(employee => ({
-                name: employee.first_name + " " + employee.last_name,
-                value: employee
-            }))
-            inquirer
-                .prompt([{
-                        type: "list",
-                        name: "employeeName",
-                        message: "Which employee's role would you like to update?",
-                        choices: employees
-                    },
-                    {
-                        type: "input",
-                        name: "role",
-                        message: "What is your new role?"
-                    }
-                ])
-                .then(function(res) {
-                    connection.query(`UPDATE employee SET role_id = ${res.role} WHERE id = ${res.employeeName}`,
-                        function(err, res) {
-                            console.log(res);
+            },
+            {
+                type: "input",
+                name: "role",
+                message: "What is your new role?"
+            }
+        ])
+        .then(function(res) {
+            connection.query("UPDATE employee SET role_id = ? WHERE first_name = ?", [res.role, res.employeeName],
+                function(err, res) {
+                    console.log(res);
+                    console.log(err);
 
-                            start();
-                        }
-                    );
-                })
-        }
-    )
+                    start();
+                }
+            );
+        })
 }

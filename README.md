@@ -18,6 +18,12 @@ The user can then choose one of the following to either view the roles, employee
 # View All Employees
 Viewing all employees grabs the name, role, and their corresponding manger
 
-![view all employees](EGHW.PNG)
+![1st gif](1st.gif)
+
+
+![2nd gif](2nd.gif)
+
+
+![3rd gif](3rd.gif)
 
 
