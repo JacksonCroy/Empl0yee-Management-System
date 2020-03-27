@@ -88,6 +88,7 @@ function viewAllEmployees() {
             if (err) throw err;
 
             console.table(res);
+            console.log(connection.query)
             start();
         });
 }
@@ -113,7 +114,7 @@ function addEmployee() {
             },
             {
                 type: "input",
-                message: "Who is their manager?",
+                message: "Who is their manager? use a manager ID ",
                 name: "manager_id"
             }
         ])
@@ -243,36 +244,37 @@ function viewAllRoles() {
     })
 }
 
-/// update Employee Role function has "unexpected character" which breaks the application 
 
+function updateEmRole() {
+    connection.query("SELECT first_name, last_name, id FROM employee",
+        function(err, res) {
 
-// function updateEmRole() {​
-//     connection.query("SELECT first_name, last_name, id FROM employee",
-//         function(err, res) {
+            let employees = res.map(employee => ({
+                name: employee.first_name + " " + employee.last_name,
+                value: employee
+            }))
+            inquirer
+                .prompt([{
+                        type: "list",
+                        name: "employeeName",
+                        message: "Which employee's role would you like to update?",
+                        choices: employees
+                    },
+                    {
+                        type: "input",
+                        name: "role",
+                        message: "What is your new role?"
+                    }
+                ])
+                .then(function(res) {
+                    connection.query(`UPDATE employee SET role_id = ${res.role} WHERE id = ${res.employeeName}`,
+                        function(err, res) {
+                            console.log(res);
 
-//             let employees = res.map(employee => ({ name: employee.first_name + " " + employee.last_name, value: employee.id }))​
-//             inquirer
-//                 .prompt([{
-//                         type: "list",
-//                         name: "employeeName",
-//                         message: "Which employee's role would you like to update?",
-//                         choices: employees
-//                     },
-//                     {
-//                         type: "input",
-//                         name: "role",
-//                         message: "What is your new role?"
-//                     }
-//                 ])
-//                 .then(function(res) {
-//                     connection.query(`UPDATE employee SET role_id = ${res.role} WHERE id = ${res.employeeName}`,
-//                         function(err, res) {
-//                             console.log(res);
-
-//                             start();
-//                         }
-//                     );
-//                 })
-//         }
-//     )
-// }
+                            start();
+                        }
+                    );
+                })
+        }
+    )
+}
